@@ -5,7 +5,7 @@
 	<link type="text/css" rel="stylesheet" href="../css/style.css" />
 	<style type="text/css">
 		#rotator {
-			width: 450px;
+			width: 900px;
 			height: 320px;
 			/*background: #131313;*/
 			text-align: left;
@@ -13,9 +13,13 @@
 
 		}
 		.box_wrapper {
+			width: 450px;
 			position: absolute;
 			display: inline-block;
 			/*float: left;*/
+		}
+		.two {
+			left: 450px;
 		}
 	</style>
 </head>
@@ -57,14 +61,18 @@
 	<hr/>
 
 	<div id="rotator">
-		<h4>Kitty Cat Katarina</h4>
-		<p>Applicake topping halvah lemon drops wypas cotton candy.</p>
-		<img src="../img/kat_3.jpg" /><br/>
-		
-		<h4>Red Card Katarina</h4>
-		<p>Cheesecake marzipan cupcake biscuit candy canes pudding.</p>
-		<img src="../img/kat_2.jpg" /><br/>
-		
+		<div class="box_wrapper">
+			<h4>Kitty Cat Katarina</h4>
+			<p>Applicake topping halvah lemon drops wypas cotton candy.</p>
+			<img src="../img/kat_3.jpg" /><br/>
+		</div>
+
+		<div class="box_wrapper two">
+			<h4>Red Card Katarina</h4>
+			<p>Cheesecake marzipan cupcake biscuit candy canes pudding.</p>
+			<img src="../img/kat_2.jpg" /><br/>
+		</div>	
+
 	</div>
 
 </div>
