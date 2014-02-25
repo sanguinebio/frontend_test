@@ -6,10 +6,16 @@
 	<style type="text/css">
 		#rotator {
 			width: 450px;
-			height: 300px;
-			border: 1px solid black;
-			background: #aaa;
-			text-align: center;
+			height: 320px;
+			/*background: #131313;*/
+			text-align: left;
+			display: inline-block;
+
+		}
+		.box_wrapper {
+			position: absolute;
+			display: inline-block;
+			/*float: left;*/
 		}
 	</style>
 </head>
@@ -51,9 +57,74 @@
 	<hr/>
 
 	<div id="rotator">
-		Rotator Here
+		<h4>Kitty Cat Katarina</h4>
+		<p>Applicake topping halvah lemon drops wypas cotton candy.</p>
+		<img src="../img/kat_3.jpg" /><br/>
+		
+		<h4>Red Card Katarina</h4>
+		<p>Cheesecake marzipan cupcake biscuit candy canes pudding.</p>
+		<img src="../img/kat_2.jpg" /><br/>
+		
 	</div>
-</div>
 
+</div>
+<script>
+
+
+  // apparently the only things NodeList's and arrays have in common is the index and length properties.
+  // lets just make it an array in case we need other array methods.
+  var headers = document.getElementsByTagName("h4");
+  var rotator = document.getElementById("rotator");
+	var ar = [];
+	var count = 0;
+  // maybe theres a way to clone nodeList without iterating, or deep clone the Array.prototype.slice.call version of imgs
+  prep(headers.length);
+
+	function clone(node) {
+		return node.cloneNode(true);
+	}
+  function prep(len) {
+  	for (i = 0; i < len; i++) {
+  		var div = document.createElement("div")
+  		div.className = "box_wrapper";
+  		var h4 = headers[i];
+  		var p = h4.nextElementSibling;
+  		var img = p.nextElementSibling;
+  		console.log(clone(h4));
+  		div.appendChild(clone(h4));
+  		div.appendChild(clone(p));
+  		div.appendChild(clone(img));
+  		ar.push(div);
+  	}  
+  }
+////////////////////// come back to this......
+  // rotator.appendChild(ar[0]);
+////////////////////// come back to this......
+	// function change() {
+	// 	++count
+	// 	rotator.innerHTML = "";
+	// 	rotator.appendChild(ar[count%4]);
+	// }
+	// var interval = setInterval(change, 4000);
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// rotator.appendChild(ar[0]);
+	// rotator.appendChild(ar[1]);
+	function change() {
+		++count
+		ar.forEach(function(elem, i) {
+			new animationSequence(elem, ((i+count)%4));
+		});
+	}
+
+	function animationSequence(elem, index) {
+		console.log(index);
+		this.animate = function() {
+
+		}
+	}
+
+</script>
 </body>
 </html>
