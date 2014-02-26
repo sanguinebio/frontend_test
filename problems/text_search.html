@@ -33,7 +33,7 @@
 	</form>
 
 	<h3>Results</h3>
-	Found 0 occurances of the word "llama" in the below text.
+	Found <span id="occurences">0</span> occurances of the word <span id="current_word">llama</span> in the below text.
 
 	<hr/>
 
@@ -53,6 +53,41 @@
 		</p>
 	</div>
 </div>
+<script>
+	var span = document.getElementById("occurences");
+	var current_word = document.getElementById("current_word");
 
+	var str = "";
+
+	makeStr(document.getElementById("search_text"));
+	// recurse through to make a string without the fluff.  if this was a real application, I'd be more certain that these nodeType checks would work everytime and do some error handling.
+	function makeStr(node) {
+	  var len = node.childNodes.length;
+	  for (var i = 0; i < len; i++) {
+	    if (node.childNodes[i].nodeType == 3) {
+	     str += node.childNodes[i].nodeValue;
+	    } else {
+	    	makeStr(node.childNodes[i]);
+	    }
+	  }
+	}
+	// regex and match can return an array of the occurences of a string within a string. 
+	function countOccurences(submittedValue) {
+		var re = new RegExp(submittedValue, "g");
+		return str.match(re) ? str.match(re).length : 0;
+	}
+	// every time the value of the input text is changed, update the span and word with the number of occurences and the current value
+	var input = document.getElementById("search_input");	
+	input.onkeyup = function(e) {
+		if (this.value == "") { 
+			span.innerHTML = "0";
+			current_word.innerHTML = "[insert word]";
+		} else {
+			span.innerHTML = countOccurences(this.value);
+			current_word.innerHTML = this.value;
+		}
+	}
+	
+</script>
 </body>
 </html>
