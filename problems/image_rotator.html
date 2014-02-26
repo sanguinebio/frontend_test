@@ -5,29 +5,25 @@
 	<link type="text/css" rel="stylesheet" href="../css/style.css" />
 	<style type="text/css">
 		#rotator {
-			width: 600px;
+			width: 450px;
 			height: 320px;
 			background: #131313;
 			/*text-align: left;*/
 			/*display: inline-block;*/
 			overflow: hidden;
-			/*position: relative;*/
+			position: relative;
 			/*float: left;*/
 
 		}
 		.box_wrapper {
 			width: 450px;
-			/*position: absolute;*/
-			display: inline-block;
+			height: 100%;
+			position: absolute;
+			/*display: inline-block;*/
 			/*overflow: hidden;*/
 		}
-		.box_2 {
-			width: 450px;
-			left: 450px;
-			
-			/*overflow: hidden;*/
-		}
-	
+
+
 	</style>
 </head>
 <body>
@@ -68,33 +64,21 @@
 	<hr/>
 
 	<div id="rotator">
-		<div class="box_wrapper">
-			<h4>Kitty Cat Katarina</h4>
-			<p>Applicake topping halvah lemon drops wypas cotton candy.</p>
-			<img src="../img/kat_3.jpg" /><br/>
-		</div>
-
-		<div class="box_wrapper box_2">
-			<h4>Red Card Katarina</h4>
-			<p>Cheesecake marzipan cupcake biscuit candy canes pudding.</p>
-			<img src="../img/kat_2.jpg" /><br/>
-		</div>	
 
 	</div>
 
 </div>
 <script>
-
-
-  // apparently the only things NodeList's and arrays have in common is the index and length properties.
-  // lets just make it an array in case we need other array methods.
+	// i hated not using requestAnimationFrame and spent like 30 min trying to figure out why it wasn't working here, but anyways, there's 2 versions - one without animation (uncomment to see it work) and one with animations. 
+  
   var headers = document.getElementsByTagName("h4");
   var rotator = document.getElementById("rotator");
 	var ar = [];
 	var count = 0;
-  // maybe theres a way to clone nodeList without iterating, or deep clone the Array.prototype.slice.call version of imgs
-  prep(headers.length);
 
+  // maybe theres a way to clone nodeList without iterating, or deep clone the Array.prototype.slice.call version of imgs
+
+  prep(headers.length);
 	function clone(node) {
 		return node.cloneNode(true);
 	}
@@ -105,40 +89,60 @@
   		var h4 = headers[i];
   		var p = h4.nextElementSibling;
   		var img = p.nextElementSibling;
-  		console.log(clone(h4));
   		div.appendChild(clone(h4));
   		div.appendChild(clone(p));
   		div.appendChild(clone(img));
   		ar.push(div);
   	}  
   }
-////////////////////// come back to this......
-  // rotator.appendChild(ar[0]);
-////////////////////// come back to this......
+
+  // *=*=*=*=*=*=*==*=*=*=*=*=*=*=*=*=*=*= Non-Animated Version *=*=*=*=*=*=*==*=*=*=*=*=*=*=*=*=*=*=
+  //  rotator.appendChild(ar[0]);
+
 	// function change() {
 	// 	++count
 	// 	rotator.innerHTML = "";
 	// 	rotator.appendChild(ar[count%4]);
 	// }
-	// var interval = setInterval(change, 4000);
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////////
-	// rotator.appendChild(ar[0]);
-	// rotator.appendChild(ar[1]);
+// =*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=* With Animations *=*=*=*=*=*=*==*=*=*=*=*=*=*=*=*=*=*=
+	ar.forEach(function(element, i) {
+		rotator.appendChild(element);
+		element.style.left = 450*i + "px";
+	});
 	function change() {
-		++count
 		ar.forEach(function(elem, i) {
-			new animationSequence(elem, ((i+count)%4));
-		});
+			// unfortunately this is the only thing i could come up with to get inverse of the remainder :/
+			new animationSequence(elem, ( (ar.length - (i + count)%4)%4) );
+		});  
+		++count;
 	}
+	function animationSequence(elem, ind) {
+		this.ind = ind;
+		this.elem = elem;
+		this.increment = 0;
+		this.start = Math.abs(this.ind)*450;
 
-	function animationSequence(elem, index) {
-		console.log(index);
-		this.animate = function() {
-
+		this.move = function() {
+			this.elem.style.left = this.start - this.increment + "px";
 		}
+		this.animate = function() {
+			var self = this;
+			this.move();
+			// for lack of a better tween, just move it 4 pixels
+			this.increment += 4;
+			// normally i'd use requestAnimationFrame here and let smart people handle the browser issues 
+			var timeOut = setTimeout(function() { self.animate() }, 1000/60);
+			if (this.increment >= 450) { 
+				if (this.ind == 0) { this.elem.style.left = "1350px"; }
+				clearTimeout(timeOut);
+			}
+		}
+		this.animate();
 	}
+// start the animation timer
+	var interval = setInterval(change, 4000);
+
 
 </script>
 </body>

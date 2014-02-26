@@ -16,11 +16,14 @@
 		.tab_container li {
 			display: inline-block;
 			margin: 0 10px;
+			font-family: Arial;
+			font-size: 20px;
 		}
 		.tab_container li:hover {
 			color: blue;
 		}
 		.tab_container p {
+			font-size: 22px;
 			margin: 20px;
 		}
 		
@@ -34,7 +37,6 @@
 	</div>
 	<div id="content">
 		<h1><span class="red">Tabbed</span> content</h1>
-
 		<p>
 			Using HTML, CSS, and JavaScript, create a functional tabbed content container in the div below.  Each tab should contain different content, and content should change when clicking on a different tab.
 		</p>
@@ -73,6 +75,8 @@
 	</div>
 
 	<script>
+	// this was for sure my most boring solution.  I got a chance to store data in the dom for the first time instead of letting frameworks do it for me.  
+
 	var container = document.getElementById("container");
 	var tab_container = document.getElementsByClassName("tab_container")[0];
 	var tab_containerP = tab_container.getElementsByTagName("p")[0];
