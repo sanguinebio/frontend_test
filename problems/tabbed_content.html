@@ -4,19 +4,26 @@
 	<title>Frontend Coding Test</title>
 	<link type="text/css" rel="stylesheet" href="../css/style.css" />
 	<style type="text/css">
-		.picture {
+		.tab_container {
 			background-color: #F9F9F9;
 			border: 1px solid #CCCCCC; padding: 3px;
-			text-align: center;
+			text-align: left;
 			margin: 0 0 18px 0;
 			width: 647px;
+			height: 300px;
 			color: #000;
 		}
-		
-		.picture img {
-			border: 1px solid #CCCCCC;
-			vertical-align:middle; margin-bottom: 3px;
+		.tab_container li {
+			display: inline-block;
+			margin: 0 10px;
 		}
+		.tab_container li:hover {
+			color: blue;
+		}
+		.tab_container p {
+			margin: 20px;
+		}
+		
 	</style>
 </head>
 <body>	
@@ -32,9 +39,15 @@
 			Using HTML, CSS, and JavaScript, create a functional tabbed content container in the div below.  Each tab should contain different content, and content should change when clicking on a different tab.
 		</p>
 
-		<div class="picture">
-			<img src="../img/tabbed_content.png" />
-			<p>Example of a tabbed content container.</p>
+		<div class="tab_container">
+			<nav>
+				<ul>
+				</ul>
+			</nav>
+			<hr />
+			<p>
+				Gingerbread muffin gummies gingerbread macaroon. Lollipop candy applicake toffee faworki. Bear claw topping jelly toffee toffee powder tiramisu candy chupa chups. Chupa chups dragee icing applicake chupa chups dessert. Croissant jelly faworki marzipan tootsie roll marshmallow. Marshmallow toffee sweet roll fruitcake.
+			</p>
 		</div>
 
 		<hr/>
@@ -58,5 +71,28 @@
 			</p>
 		</div>
 	</div>
+
+	<script>
+	var container = document.getElementById("container");
+	var tab_container = document.getElementsByClassName("tab_container")[0];
+	var tab_containerP = tab_container.getElementsByTagName("p")[0];
+	var ul = tab_container.getElementsByTagName("ul")[0];
+	var h3s = Array.prototype.slice.call(container.getElementsByTagName("h3"));
+
+	h3s.forEach(function(node) {
+		var html = node.innerHTML;
+		var neighbor = node.nextElementSibling.innerHTML;
+		var newClass = html.replace(" ", "_");
+		var li = document.createElement("li");
+		li.className = newClass;
+		li.innerHTML = html;
+		ul.appendChild(li);
+		document.getElementsByClassName(newClass)[0].setAttribute("pData", neighbor);
+	});
+
+	// maybe could add a check here to see whether the one clicked on is already active...
+	ul.onclick = function(e) { tab_containerP.innerHTML = e.target.getAttribute("pData"); }
+
+	</script>
 </body>
 </html>
